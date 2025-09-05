@@ -1,0 +1,917 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiology Department - Ariya Hospitals</title>
+    <style>
+        :root {
+            --dark-pink: #D81B60;
+            --dark-blue: #1A237E;
+            --light-pink: #F8BBD0;
+            --light-blue: #C5CAE9;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #424242;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            overflow-x: hidden;
+            background-color: var(--white);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+        }
+        
+        .logo-text {
+            margin-left: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--dark-pink);
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .dropdown-toggle i {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .dropdown:hover .dropdown-toggle i {
+            transform: rotate(180deg);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            min-width: 220px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            padding: 10px 0;
+            list-style: none;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-menu li {
+            margin: 0;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: var(--dark-gray);
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: var(--light-gray);
+            color: var(--dark-pink);
+            padding-left: 25px;
+        }
+        
+        /* Department Hero Section */
+        .department-hero {
+            background: linear-gradient(135deg, #C5CAE9, #E3F2FD);
+            min-height: 60vh;
+            padding-top: 100px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .department-hero-content {
+            width: 100%;
+            padding: 2rem 5%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .department-title {
+            font-size: 3rem;
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .department-subtitle {
+            font-size: 1.5rem;
+            color: var(--dark-blue);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-button {
+            padding: 1rem 2rem;
+            background-color: var(--dark-pink);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.4);
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 10px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 7px 20px rgba(216, 27, 96, 0.6);
+        }
+        
+        .pedia-icon {
+            font-size: 80px;
+            color: var(--dark-blue);
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+        
+        .shape-child {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            opacity: 0.06;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 1;
+        }
+        
+        .shape-child-1 {
+            top: -10%;
+            right: -5%;
+            transform: rotate(20deg);
+        }
+        
+        .shape-child-2 {
+            bottom: -10%;
+            left: -5%;
+            transform: rotate(-15deg);
+        }
+        
+        /* Department Content */
+        .department-content {
+            padding: 5rem 5%;
+            background-color: var(--white);
+        }
+        
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+        }
+        
+        .content-left {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .content-right {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .content-block {
+            margin-bottom: 3rem;
+        }
+        
+        .content-title {
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .content-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--dark-pink);
+        }
+        
+        .content-text {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .treatment-list {
+            list-style: none;
+        }
+        
+        .treatment-item {
+            margin-bottom: 1.5rem;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .treatment-item::before {
+            content: "\f0da";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: var(--dark-pink);
+            position: absolute;
+            left: 0;
+            top: 5px;
+        }
+        
+        .treatment-item h4 {
+            font-size: 1.2rem;
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .treatment-item p {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+        
+        .pedia-image {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .doctor-card {
+            display: flex;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .doctor-img {
+            width: 120px;
+            height: 120px;
+            background-color: var(--light-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark-blue);
+            font-size: 3rem;
+        }
+        
+        .doctor-info {
+            padding: 1.5rem;
+            flex: 1;
+        }
+        
+        .doctor-name {
+            font-size: 1.3rem;
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .doctor-speciality {
+            font-size: 0.9rem;
+            color: var(--dark-pink);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .doctor-qualification {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+        
+        .conditions-treated {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .condition-tag {
+            background-color: var(--light-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: var(--dark-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .condition-tag:hover {
+            background-color: var(--dark-blue);
+            color: var(--white);
+        }
+        
+        .tech-box {
+            background: linear-gradient(135deg, var(--light-blue), var(--light-pink));
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 3rem;
+        }
+        
+        .tech-title {
+            color: var(--dark-blue);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+        
+        .tech-item {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tech-icon {
+            font-size: 2rem;
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tech-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+        
+        .appointment {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, var(--dark-blue), var(--dark-pink));
+            color: var(--white);
+            text-align: center;
+        }
+        
+        .appointment-title {
+            color: var(--white);
+        }
+        
+        .appointment-form {
+            max-width: 600px;
+            margin: 3rem auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23424242' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.8rem center;
+            background-size: 1.2rem;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--dark-pink);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-btn:hover {
+            background-color: #c2185b;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer {
+            background-color: var(--dark-blue);
+            color: var(--white);
+            padding: 3rem 5%;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--light-pink);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            text-decoration: none;
+            color: var(--white);
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--light-pink);
+        }
+        
+        .contact-info {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .contact-icon {
+            margin-right: 10px;
+            color: var(--light-pink);
+        }
+        
+        .footer-bottom {
+            margin-top: 3rem;
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--dark-pink);
+            transform: translateY(-5px);
+        }
+        
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--dark-blue);
+            cursor: pointer;
+        }
+        
+        /* Responsive adjustments */
+        @media screen and (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                background-color: var(--white);
+                width: 100%;
+                height: calc(100vh - 80px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 30px;
+                transition: all 0.4s ease;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease;
+                width: 100%;
+                background-color: var(--light-gray);
+                border-radius: 5px;
+                margin-top: 10px;
+            }
+            
+            .dropdown.active .dropdown-menu {
+                max-height: 300px;
+            }
+            
+            .dropdown-toggle {
+                justify-content: center;
+            }
+            
+            .department-title {
+                font-size: 2.5rem;
+            }
+            
+            .content-container {
+                flex-direction: column;
+            }
+            
+            .doctor-card {
+                flex-direction: column;
+            }
+            
+            .doctor-img {
+                width: 100%;
+                height: 150px;
+            }
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(216, 27, 96, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(216, 27, 96, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(216, 27, 96, 0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/assets/logo.png" alt="Ariya Hospitals Logo">
+            <div class="logo-text">Ariya Hospitals</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html#home">Home</a></li>
+            <li><a href="../index.html#about">About Us</a></li>
+            <li><a href="../index.html#doctors">Our Doctors</a></li>
+            <li class="dropdown">
+                <a href="../index.html#departments" class="dropdown-toggle">Our Departments <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="neurology.html">Neurology</a></li>
+                    <li><a href="gynecology.html">Gynecology</a></li>
+                    <li><a href="pediatrics.html">Pediatrics</a></li>
+                    <li><a href="radiology.html">Radiology</a></li>
+                    <li><a href="urology.html">Urology</a></li>
+                    <li><a href="gastroenterology.html">Gastroenterology</a></li>
+                    <li><a href="general-medicine.html">General Medicine</a></li>
+                </ul>
+            </li>
+            <li><a href="../index.html#testimonials">Testimonials</a></li>
+            <li><a href="../index.html#appointment">Book Appointment</a></li>
+        </ul>
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+    
+    <!-- Department Hero Section -->
+    <section class="department-hero">
+        <div class="shape-child shape-child-1">
+            <i class="fas fa-x-ray"></i>
+        </div>
+        <div class="shape-child shape-child-2">
+            <i class="fas fa-microscope"></i>
+        </div>
+        <div class="department-hero-content">
+            <i class="fas fa-x-ray pedia-icon float"></i>
+            <h1 class="department-title">Radiology & Diagnostic Imaging</h1>
+            <h2 class="department-subtitle">Delivering World-Class Diagnostic Excellence</h2>
+            <a href="../index.html#appointment" class="cta-button pulse">Book an Appointment</a>
+        </div>
+    </section>
+    
+    <!-- Department Content Section -->
+    <section class="department-content">
+        <div class="content-container">
+            <div class="content-left">
+                <div class="content-block">
+                    <h2 class="content-title">About Our Radiology Department</h2>
+                    <p class="content-text">The Department of Radiology and Imaging at Ariya Hospitals boasts of using state-of-the-art and the latest equipment, providing expert diagnostic and interventional services to support the clinical needs of our hospital. Our team of skilled radiologists and technicians utilizes advanced imaging technology to detect, diagnose, and treat various medical conditions.</p>
+                    <p class="content-text">Radiology, also known as diagnostic imaging, is a group of tests that take pictures or images of various body parts. Our department is committed to delivering precise diagnostic results with minimal waiting times, ensuring the highest standards of patient care and safety throughout the imaging process.</p>
+                </div>
+                
+                <div class="content-block">
+                    <h2 class="content-title">Our Approach to Radiology</h2>
+                    <p class="content-text">The field of radiology is divided into two branches: diagnostic radiology and interventional radiology, both of which use radiant energy to diagnose and treat diseases. Our expert radiologists examine the results of imaging tests to identify relevant findings that evaluate and support accurate diagnoses.</p>
+                    <p class="content-text">Following the completion of imaging tests, our radiologists provide comprehensive reports with their interpretations to the referring clinical doctors, ensuring a collaborative approach to patient care. We prioritize patient comfort and safety while delivering high-quality diagnostic services.</p>
+                    <img src="/assets/pic5.jpg" alt="Radiology Department" class="pedia-image">
+                </div>
+                
+                <div class="content-block">
+                    <h2 class="content-title">Applications of Radiology</h2>
+                    <p class="content-text">Radiology is used in every aspect of healthcare, supporting various medical specialties and treatments. Our department provides crucial imaging support for:</p>
+                    
+                    <div class="conditions-treated">
+                        <span class="condition-tag">Surgery</span>
+                        <span class="condition-tag">Pediatrics</span>
+                        <span class="condition-tag">Obstetrics</span>
+                        <span class="condition-tag">Oncology</span>
+                        <span class="condition-tag">Trauma-response</span>
+                        <span class="condition-tag">Emergency Medicine</span>
+                        <span class="condition-tag">Infectious Disease</span>
+                        <span class="condition-tag">Cardiology</span>
+                        <span class="condition-tag">Neurology</span>
+                        <span class="condition-tag">Orthopedics</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-right">
+                <div class="content-block">
+                    <h2 class="content-title">Our Services & Procedures</h2>
+                    <ul class="treatment-list">
+                        <li class="treatment-item">
+                            <h4>X-Ray Imaging</h4>
+                            <p>Comprehensive X-ray services including plain X-rays, bedside X-rays, tomography, and fluoroscopy for diagnosing bone fractures, joint conditions, chest problems, and more.</p>
+                        </li>
+                        <li class="treatment-item">
+                            <h4>CT Scanning</h4>
+                            <p>Advanced computed tomography (CT) scans that provide detailed cross-sectional images of organs, bones, and tissues for diagnosing injuries, tumors, and other conditions.</p>
+                        </li>
+                        <li class="treatment-item">
+                            <h4>MRI Services</h4>
+                            <p>Magnetic Resonance Imaging (MRI) that uses strong magnetic fields and radio waves to produce detailed images of the body's internal structures, particularly effective for brain, spine, joint, and soft tissue imaging.</p>
+                        </li>
+                        <li class="treatment-item">
+                            <h4>Ultrasound & Doppler Studies</h4>
+                            <p>Comprehensive ultrasound services including obstetric scans, color Doppler studies, neonatal cranial USG, fetal anomaly USG, TRUS & TVS, and high-resolution ultrasound for musculoskeletal and small parts.</p>
+                        </li>
+                        <li class="treatment-item">
+                            <h4>Interventional Radiology</h4>
+                            <p>Minimally invasive procedures using USG and fluoroscopy guidance, allowing for diagnosis and treatment with reduced risk, less pain, and shorter recovery times compared to traditional surgery.</p>
+                        </li>
+                        <li class="treatment-item">
+                            <h4>Pediatric Imaging</h4>
+                            <p>Specialized imaging procedures for children with equipment and protocols designed specifically for pediatric patients, ensuring minimal radiation exposure and maximum comfort.</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="content-block">
+                    <h2 class="content-title">Meet Our Specialists</h2>
+                    <div class="doctor-card">
+                        <div class="doctor-img">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="doctor-info">
+                            <h3 class="doctor-name">Dr. Sunil Mehta</h3>
+                            <p class="doctor-speciality">Chief Radiologist & Department Head</p>
+                            <p class="doctor-qualification">MD, DNB, DMRD, 15+ years experience</p>
+                            <p>Specializes in advanced CT and MRI diagnostics</p>
+                        </div>
+                    </div>
+                    
+                    <div class="doctor-card">
+                        <div class="doctor-img">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="doctor-info">
+                            <h3 class="doctor-name">Dr. Ananya Desai</h3>
+                            <p class="doctor-speciality">Interventional Radiologist</p>
+                            <p class="doctor-qualification">MD, Fellowship in Interventional Radiology, 12+ years experience</p>
+                            <p>Expert in image-guided minimally invasive procedures</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-box">
+                    <h3 class="tech-title">Advanced Imaging Equipment</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <div class="tech-icon">
+                                <i class="fas fa-x-ray"></i>
+                            </div>
+                            <div class="tech-name">Digital X-Ray</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="tech-name">3T MRI</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon">
+                                <i class="fas fa-laptop-medical"></i>
+                            </div>
+                            <div class="tech-name">128-Slice CT</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon">
+                                <i class="fas fa-laptop-medical"></i>
+                            </div>
+                            <div class="tech-name">128-Slice CT</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3 class="footer-title">About Ariya Hospitals</h3>
+                <p>At Ariya Hospitals, our expert medical teams, advanced technologies, and state-of-the-art facilities ensure you receive the highest-quality care for all your health concerns.</p>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#doctors">Our Doctors</a></li>
+                    <li><a href="#departments">Our Departments</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#appointment">Make Appointment</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Contact Information</h3>
+                <div class="contact-info">
+                    <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+                    <span>D.No. 4-20/6/1, near DTDC, Midhilapuri vuda colony, Madhurawada, Vsp-530041</span>
+                </div>
+                <div class="contact-info">
+                    <span class="contact-icon"><i class="fas fa-phone"></i></span>
+                    <span>7075318180</span>
+                </div>
+                <div class="contact-info">
+                    <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+                    <span>ariyahospitalinfo@gmail.com</span>
+                </div>
+                <div class="contact-info">
+                    <span class="contact-icon"><i class="fas fa-clock"></i></span>
+                    <span>Mon - Sat : 24hrs Open</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Ariya Hospitals. All rights reserved by Arkbee</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/profile.php?id=61576235313743" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                
+                <a href="https://www.instagram.com/ariyahospital/" class="social-icon"><i class="fab fa-instagram"></i></a>
+           
+            </div>
+        </div> 
+    </footer>
+</body>
+</html>
